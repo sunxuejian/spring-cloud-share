@@ -8,11 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="eureka_client_one" />
         <module name="eureka_server" />
+        <module name="spring_security" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="eureka_client_one" target="1.8" />
       <module name="eureka_server" target="1.8" />
+      <module name="spring_security" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
