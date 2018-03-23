@@ -1,7 +1,6 @@
 package com.sumscope.security.spring_security.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -12,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(produces = {"application/json"})
 public class HelloSecurity {
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(){
-        return "";
+    @RequestMapping(value = "/index")
+    public String index(){
+        return "index";
     }
 }
