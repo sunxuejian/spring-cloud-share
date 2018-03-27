@@ -6,12 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="easy_excel" />
         <module name="eureka_client_one" />
         <module name="eureka_server" />
         <module name="spring_security" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="easy_excel" target="1.8" />
       <module name="eureka_client_one" target="1.8" />
       <module name="eureka_server" target="1.8" />
       <module name="spring_security" target="1.8" />
