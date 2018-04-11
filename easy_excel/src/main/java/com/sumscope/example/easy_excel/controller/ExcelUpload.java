@@ -1,8 +1,5 @@
 package com.sumscope.example.easy_excel.controller;
 
-import cn.afterturn.easypoi.excel.ExcelImportUtil;
-import cn.afterturn.easypoi.excel.entity.ImportParams;
-import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.google.common.io.BaseEncoding;
@@ -11,10 +8,17 @@ import com.sumscope.example.easy_excel.ValidationHandler;
 import com.sumscope.example.easy_excel.model.User;
 import com.sumscope.example.easy_excel.model.UserExcelListener;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jeecgframework.poi.excel.ExcelImportUtil;
+import org.jeecgframework.poi.excel.entity.ImportParams;
+import org.jeecgframework.poi.excel.entity.result.ExcelImportResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -60,10 +64,14 @@ public class ExcelUpload {
         ValidationHandler validationHandler = new ValidationHandler();
         importParams.setDataHanlder(validationHandler);
         importParams.setNeedVerfiy(true);
-        importParams.setSheetNum(2);
-        ExcelImportResult<User> result = ExcelImportUtil.importExcelMore(file.getInputStream(), User.class, importParams);
-        result.getFailList().forEach(user -> log.info("失败信息{}",user.getName()));
+        importParams.setNeedSave(true);
+        Workbook workbook = new XSSFWorkbook(file.getInputStream());
+        int numberOfSheets = workbook.getNumberOfSheets();
+        importParams.setSheetNum(numberOfSheets);
+        workbook = null;
+        ExcelImportResult<User> result = ExcelImportUtil.importExcelVerify(file.getInputStream(), User.class, importParams);
         result.getList().forEach(user -> log.info("成功信息:{}",user));
+        validationHandler.getErrorMsg().forEach(str -> log.error("错误信息,{}",str));
     }
 
     @RequestMapping(value = "/get",method = RequestMethod.GET)

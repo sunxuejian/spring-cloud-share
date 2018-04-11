@@ -1,6 +1,7 @@
 package com.sumscope.example.easy_excel.model;
 
-import cn.afterturn.easypoi.excel.annotation.ExcelCollection;
+
+import org.jeecgframework.poi.excel.annotation.ExcelCollection;
 
 import java.util.List;
 
