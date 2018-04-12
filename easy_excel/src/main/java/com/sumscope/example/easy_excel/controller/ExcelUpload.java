@@ -5,6 +5,7 @@ import com.alibaba.excel.support.ExcelTypeEnum;
 import com.google.common.io.BaseEncoding;
 import com.sumscope.example.easy_excel.JsonUtil;
 import com.sumscope.example.easy_excel.ValidationHandler;
+import com.sumscope.example.easy_excel.model.ExcelParseResult;
 import com.sumscope.example.easy_excel.model.User;
 import com.sumscope.example.easy_excel.model.UserExcelListener;
 import lombok.extern.slf4j.Slf4j;
@@ -13,12 +14,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.entity.result.ExcelImportResult;
+import org.jeecgframework.poi.handler.impl.ExcelDataHandlerDefaultImpl;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,18 +64,34 @@ public class ExcelUpload {
         log.info("文件名:{}",file.getName());
         log.info("文件内容类型{}",file.getContentType());
         log.info("原文件名{}",file.getOriginalFilename());
-        ImportParams importParams = new ImportParams();
-        ValidationHandler validationHandler = new ValidationHandler();
-        importParams.setDataHanlder(validationHandler);
-        importParams.setNeedVerfiy(true);
-        importParams.setNeedSave(true);
+        List<ExcelParseResult<User>> results = new LinkedList<>();
         Workbook workbook = new XSSFWorkbook(file.getInputStream());
-        int numberOfSheets = workbook.getNumberOfSheets();
-        importParams.setSheetNum(numberOfSheets);
+        for(int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            ValidationHandler validationHandler = new ValidationHandler();
+            ImportParams importParams = bySheet(i,validationHandler);
+            ExcelImportResult<User> result = ExcelImportUtil.importExcelVerify(file.getInputStream(), User.class, importParams);
+            ExcelParseResult<User> parseResult = new ExcelParseResult<>();
+            parseResult.setErrorMsg(validationHandler.getErrorMsg());
+            parseResult.setSheetName(workbook.getSheetName(i));
+            parseResult.setResult(result.getList());
+            results.add(parseResult);
+        }
         workbook = null;
-        ExcelImportResult<User> result = ExcelImportUtil.importExcelVerify(file.getInputStream(), User.class, importParams);
-        result.getList().forEach(user -> log.info("成功信息:{}",user));
-        validationHandler.getErrorMsg().forEach(str -> log.error("错误信息,{}",str));
+        results.forEach(result -> {
+            log.info("sheetName:{}",result.getSheetName());
+            result.getResult().forEach(user -> log.info("解析结果:{}",user));
+            result.getErrorMsg().forEach(err -> log.info("错误信息:{}",err));
+        });
+    }
+
+
+    private ImportParams bySheet(int startSheetIndex, ExcelDataHandlerDefaultImpl excelDataHandlerDefault) throws IOException {
+        ImportParams importParams = new ImportParams();
+        importParams.setDataHanlder(excelDataHandlerDefault);
+        importParams.setNeedVerfiy(true);
+//        importParams.setNeedSave(true);
+        importParams.setStartSheetIndex(startSheetIndex);
+        return importParams;
     }
 
     @RequestMapping(value = "/get",method = RequestMethod.GET)
