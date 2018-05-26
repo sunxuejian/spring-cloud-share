@@ -8,11 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/3/22
  */
 @RestController
-@RequestMapping(produces = {"application/json"})
+//@RequestMapping(produces = {"application/json"})
 public class HelloSecurity {
 
-    @RequestMapping(value = "/index")
+//    @PostMapping("/sing2")
+//    public String login(){
+//        return "hello";
+//    }
+
+    @RequestMapping(value = "/hello")
     public String index(){
-        return "index";
+        return "hello security";
     }
 }

@@ -1,0 +1,2 @@
+{"id":"1","username":"test1","password":"123456","accountNonLocked":true,"roles":[{"id":"1","name":"admin"}]}
+{"id":"2","username":"test2","password":"123456","accountNonLocked":false,"roles":[{"id":"2","name":"user"}]}

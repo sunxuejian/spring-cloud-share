@@ -1,57 +1,28 @@
 package com.sumscope.security.spring_security.configuration;
 
-import com.sumscope.security.spring_security.service.UserService;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author xuejian.sun
  * @date 2018/3/22
  */
-@Configuration
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public UserDetailsService userService(){
-        return new UserService();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService());
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated()
-            .and()
-            .formLogin()
-            .loginPage("/login")
-            .failureForwardUrl("/login?error")
-            .permitAll()
-            .and()
-            .logout()
-            .permitAll();
-    }
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence charSequence) {
-                return charSequence.toString();
-            }
-
-            @Override
-            public boolean matches(CharSequence charSequence, String s) {
-                return charSequence.toString().equals(s);
-            }
-        };
+        http.formLogin() //基于表单的提交验证
+                .loginPage("/sing-in.html") //指定我们自己的登录页面,
+                .loginProcessingUrl("/my_login")
+                .and()
+                .authorizeRequests() //对任何请求进行权限控制
+                .antMatchers("/sing-in.html","/*.css","/image/**").permitAll()//对我们的自定义的登录页面以及静态资源放行
+                .anyRequest()
+                .authenticated()
+                .and()
+                .csrf().disable(); //暂时关闭跨站防护
     }
 }

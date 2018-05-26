@@ -1,0 +1,71 @@
+@charset "utf-8";
+/* 表单边框 */
+form {
+    border: 3px solid #f1f1f1;
+}
+
+/* 全宽度输入框 */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* 所有按钮的样式 */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* 为按钮添加鼠标移动样式 */
+button:hover {
+    opacity: 0.8;
+}
+
+/* 取消按钮设置为红色 */
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+/* 头像置于图像容器正中 */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+/* 头像 */
+img.avatar {
+    width: 30%;
+    border-radius: 40%;
+}
+
+/* 添加容器内边距 */
+.container {
+    padding: 16px;
+}
+
+/* “忘记密码”字样置于右边 */
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* 设置小屏幕上的span和取消按钮样式 */
+@media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+    }
+    .cancelbtn {
+        width: 100%;
+    }
+}
