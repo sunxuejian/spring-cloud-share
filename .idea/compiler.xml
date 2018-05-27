@@ -6,8 +6,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="eureka_client_one" />
-        <module name="eureka_server" />
         <module name="spring_security" />
       </profile>
     </annotationProcessing>

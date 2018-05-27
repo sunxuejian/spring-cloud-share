@@ -1,5 +1,8 @@
 package com.sumscope.security.spring_security.controller;
 
+import com.sumscope.security.spring_security.model.ResponseTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,16 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/3/22
  */
 @RestController
-//@RequestMapping(produces = {"application/json"})
+@RequestMapping(produces = {"application/json"})
 public class HelloSecurity {
 
-//    @PostMapping("/sing2")
-//    public String login(){
-//        return "hello";
-//    }
+    @GetMapping("/my-info")
+    public Authentication info(Authentication authentication){
+        return authentication;
+    }
 
-    @RequestMapping(value = "/hello")
+    @GetMapping(value = "/hello")
     public String index(){
         return "hello security";
+    }
+
+    @RequestMapping("/session/expired")
+    public ResponseTemplate sessionInvalid(){
+        return new ResponseTemplate("会话已经过期，请重新登录！");
     }
 }
