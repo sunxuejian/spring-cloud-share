@@ -6,10 +6,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author xuejian.sun
@@ -17,7 +17,7 @@ import java.util.Objects;
  */
 @Data
 @NoArgsConstructor
-public class User implements UserDetails{
+public class User implements UserDetails {
 
     private String id;
 
@@ -49,9 +49,10 @@ public class User implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
-        return authorities;
+        return roles
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override

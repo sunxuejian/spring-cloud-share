@@ -28,4 +28,9 @@ public class HelloSecurity {
     public ResponseTemplate sessionInvalid(){
         return new ResponseTemplate("会话已经过期，请重新登录！");
     }
+
+    @GetMapping("/vip")
+    public ResponseTemplate vip(){
+        return new ResponseTemplate("当前页面只有VIP可见！");
+    }
 }

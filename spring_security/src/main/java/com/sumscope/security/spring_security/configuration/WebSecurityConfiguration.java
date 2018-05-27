@@ -94,6 +94,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/session/expired"
                         )
                 .permitAll()//对我们的自定义的登录页面以及静态资源放行
+                .antMatchers("/vip").hasAnyRole("ADMIN") //配置vip可访问服务
                 .anyRequest()
                 .authenticated()
                 .and()

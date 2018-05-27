@@ -1,2 +1,3 @@
-{"id":"1","username":"test1","password":"123456","accountNonLocked":true,"roles":[{"id":"1","name":"admin"}]}
-{"id":"2","username":"test2","password":"123456","accountNonLocked":false,"roles":[{"id":"2","name":"user"}]}
+{"id":"1","username":"test1","password":"123456","accountNonLocked":true,"roles":[{"id":"1","name":"ROLE_ADMIN"}]}
+{"id":"3","username":"test3","password":"123456","accountNonLocked":true,"roles":[{"id":"3","name":"ROLE_USER"}]}
+{"id":"2","username":"test2","password":"123456","accountNonLocked":false,"roles":[{"id":"2","name":"ROLE_USER"}]}
